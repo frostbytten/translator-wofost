@@ -13,12 +13,13 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.agmip.common.Functions;
+import org.agmip.core.types.TranslatorOutput;
 
 import org.agmip.util.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WofostOutputController {
+public class WofostOutputController implements TranslatorOutput {
 	
 		File[] listOfFiles;
 		private List<File> fileList = new ArrayList<File>();
@@ -152,4 +153,8 @@ public class WofostOutputController {
 //	    	theTempPath.delete();
 	    		    	
 	    }
+
+    public void writeFile(String outputDirectory, Map data) {
+        writeFiles(outputDirectory, data);
+    }
 }
