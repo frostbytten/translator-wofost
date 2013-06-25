@@ -41,7 +41,7 @@ public class TranslationTest
      * Rigourous Test :-)
      * @throws IOException 
      */
-    public void testTranslation() throws IOException
+    public void test01_Translation() throws IOException
     {
         System.out.println("start");
         
@@ -53,7 +53,7 @@ public class TranslationTest
 		Map <String, Object> theMap = JSONAdapter.fromJSON(json);
         
 		WofostOutputController wc = new WofostOutputController();
-		String outputPath = "src\\main\\resources\\OUTPUT";
+		String outputPath = "src\\test\\resources\\OUTPUT";
 		wc.writeFiles(outputPath, theMap);
 		
 		System.out.println("finished");
@@ -64,13 +64,13 @@ public class TranslationTest
      * Rigourous Test :-)
      * @throws IOException 
      */
-    public void testACMOoutput() throws IOException
+    public void test02_ACMOoutput() throws IOException
     {
     	System.out.println("start ACMO");
     	   	
     	WofostACMO wo = new WofostACMO();
-    	String sourceFolder = "src\\main\\resources\\OUTPUT";
-    	String destFolder   = "src\\main\\resources\\OUTPUT";
+    	String sourceFolder = "src\\test\\resources\\OUTPUT";
+    	String destFolder   = "src\\test\\resources\\OUTPUT";
     	
     	wo.execute(sourceFolder, destFolder);
     	
