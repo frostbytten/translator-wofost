@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.text.DateFormatter;
+import org.agmip.acmo.util.AcmoUtil;
 
 public class WofostACMO implements AcmoTranslator {
 	
@@ -344,7 +345,7 @@ public class WofostACMO implements AcmoTranslator {
 		CSVReader cr = new CSVReader(br, seperator, quotechar);
 		
 		// open output file
-		String acmoFileNameOut = destFolder + "\\ACMO_meta.csv";
+		String acmoFileNameOut = AcmoUtil.createCsvFile(destFolder, "WOFOST", acmoFileNameIn).getPath();
 		BufferedWriter bw = getBufferedWriter(acmoFileNameOut);	
 		CSVWriter cw = new CSVWriter(bw, seperator, quotechar);
 		
