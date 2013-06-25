@@ -15,11 +15,15 @@ import java.util.Map;
 import org.agmip.util.MapUtil;
 import aquacrop_utils.Experiment;
 import aquacrop_utils.ManagementEvent;
+import org.agmip.common.Functions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class WofostOutputExperiments extends WofostOutput {
 	
 	ArrayList<String> runNames = new ArrayList<String>();
+        private static final Logger LOG = LoggerFactory.getLogger(WofostOutputExperiments.class);
 	
 	private void createBatchRun(String filePath) throws IOException
 	{
@@ -54,7 +58,7 @@ public class WofostOutputExperiments extends WofostOutput {
 				//HashMap<String, String> experimentValues = experiment.getValues();
 				expName = (String) experiment.get("exname");
 				runNames.add(ReplaceIllegalChars(expName));
-				System.out.println("Experiment: " + expName);
+				LOG.debug("Experiment: " + expName);
 				
 				String expDirName = filePath + ReplaceIllegalChars(expName) + "\\";
 				File expDir = new File(expDirName);
@@ -103,16 +107,19 @@ public class WofostOutputExperiments extends WofostOutput {
 				new WofostOutputSite().writeFile(expDirInputName, experiment);
 			}
 			catch (FileNotFoundException e) {
-				System.out.println("file not found");
+				LOG.error("file not found");
+                                LOG.error(Functions.getStackTrace(e));
 			} catch (IOException e) {
-				System.out.println("IO error");
+				LOG.error("IO error");
+                                LOG.error(Functions.getStackTrace(e));
 			} 
 		}
 		
 		try {
 			createBatchRun(filePath);
 		} catch (IOException e) {
-			System.out.println("IO error");
+			LOG.error("IO error");
+                        LOG.error(Functions.getStackTrace(e));
 		}
 	}
 	

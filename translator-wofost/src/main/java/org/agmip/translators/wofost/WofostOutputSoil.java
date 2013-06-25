@@ -4,17 +4,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import org.agmip.common.Functions;
 
 import org.agmip.util.MapUtil;
 import org.agmip.util.MapUtil.BucketEntry;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WofostOutputSoil extends WofostOutput {
 	
 	//public String soilFileName = "";
 	//public String soilName = "";;
+        private static final Logger LOG = LoggerFactory.getLogger(WofostOutputSoil.class);
 
 	public void writeFile(String filePath, Map input) {
 		
@@ -51,7 +55,8 @@ public class WofostOutputSoil extends WofostOutput {
 				} 
 			catch (IOException ex) 
 			{            
-				System.out.println("IO error"); 
+				LOG.error("IO error");
+                                LOG.error(Functions.getStackTrace(ex));
 			}          
 		}		
 	}

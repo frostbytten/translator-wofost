@@ -13,9 +13,13 @@ import org.apache.velocity.app.Velocity;
 
 import aquacrop_utils.ManagementEvent;
 import aquacrop_utils.PlantingEvent;
+import org.agmip.common.Functions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WofostOutputTimer extends WofostOutput {
 	
+        private static final Logger LOG = LoggerFactory.getLogger(WofostOutputTimer.class);
 	public void writeFile(String filePath, Map _input, Map eventMap) 
 	{
 			Velocity.init();        
@@ -81,7 +85,8 @@ public class WofostOutputTimer extends WofostOutput {
 				F.close();                    
 				} 
 			catch (IOException e) {
-				System.out.println("IO error");
+				LOG.error("IO error");
+                                LOG.error(Functions.getStackTrace(e));
 			}       
 	}
 }

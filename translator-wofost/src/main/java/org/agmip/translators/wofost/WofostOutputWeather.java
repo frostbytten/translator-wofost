@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.agmip.common.Functions;
 
 import org.agmip.util.MapUtil;
 import org.agmip.util.MapUtil.BucketEntry;
@@ -22,7 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WofostOutputWeather extends WofostOutput {
-	
+    
+    private static final Logger LOG = LoggerFactory.getLogger(WofostOutputWeather.class);
 	// todo: check default values in case of missing values
 	
     public void writeFile(String filePath, Map input) {
@@ -159,10 +161,12 @@ public class WofostOutputWeather extends WofostOutput {
 				}
 		    	
 			} catch (FileNotFoundException e) {
-				System.out.println("file not found");
+				LOG.error("file not found");
+                                LOG.error(Functions.getStackTrace(e));
 			} catch (IOException e) {
-				System.out.println("IO error");
-			} 	
+				LOG.error("IO error");
+                                LOG.error(Functions.getStackTrace(e));
+			}  	
 		}
    	
     }

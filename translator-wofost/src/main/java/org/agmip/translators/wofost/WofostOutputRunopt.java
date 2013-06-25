@@ -5,13 +5,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import org.agmip.common.Functions;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WofostOutputRunopt extends WofostOutput {
 	
+        private static final Logger LOG = LoggerFactory.getLogger(WofostOutputRunopt.class);
 	public void writeFile(String filePath, Map input) {
 		// TODO map all variables of input file with values in input map (json string)
 			Velocity.init();        
@@ -37,12 +41,13 @@ public class WofostOutputRunopt extends WofostOutput {
 				F = new FileWriter(fName);            
 				template.merge( context, F );            
 				F.close();                    
-			} 
-			catch (FileNotFoundException e) {
-				System.out.println("file not found");
+			} catch (FileNotFoundException e) {
+				LOG.error("file not found");
+                                LOG.error(Functions.getStackTrace(e));
 			} catch (IOException e) {
-				System.out.println("IO error");
-			}         
+				LOG.error("IO error");
+                                LOG.error(Functions.getStackTrace(e));
+			} 
 	}
 
 }

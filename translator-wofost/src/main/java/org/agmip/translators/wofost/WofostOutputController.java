@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.agmip.common.Functions;
 
 import org.agmip.util.MapUtil;
 import org.slf4j.Logger;
@@ -128,7 +129,8 @@ public class WofostOutputController {
 	    	try {
 				createErrorLog(filePath);
 			} catch (IOException e) {
-				System.out.println("IO error");
+				Log.error("IO error");
+                                Log.error(Functions.getStackTrace(e));
 			}
 	    	
 //	    	List<String> errList = WofostOutput.errorList();

@@ -5,14 +5,18 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.agmip.common.Functions;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WofostOutputSite extends WofostOutput {
 	
 	private VelocityContext context = new VelocityContext();
+        private static final Logger LOG = LoggerFactory.getLogger(WofostOutputSite.class);
 	
 	private void getPutVariable(HashMap<String, String> aMap, String varName, String tag)
 	{
@@ -59,7 +63,8 @@ public class WofostOutputSite extends WofostOutput {
 				} 
 			catch (IOException ex) 
 			{            
-				System.out.println("IO error");   
+				LOG.error("IO error");
+                                LOG.error(Functions.getStackTrace(ex));
 			}        
 	}
 			

@@ -32,6 +32,8 @@ import java.util.Map.Entry;
 
 import javax.swing.text.DateFormatter;
 import org.agmip.acmo.util.AcmoUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WofostACMO implements AcmoTranslator {
 	
@@ -41,6 +43,7 @@ public class WofostACMO implements AcmoTranslator {
 	static String YR_tag = "** YR";
 	
 	ArrayList<Map.Entry<String, Integer>> colNames = new ArrayList<Map.Entry<String, Integer>>();
+        private static final Logger LOG = LoggerFactory.getLogger(WofostACMO.class);
 	
 	private int getColIndexOf(String aTag)
 	{
@@ -283,7 +286,7 @@ public class WofostACMO implements AcmoTranslator {
 					// check length of both lines: length line_tag should be length line_values +1		
 					if (strArray_tags.length != strArray_values.length + 1)
 					{
-						System.out.println(String.format("invalid number of values in summary file %s", outputFileName));
+						LOG.error(String.format("invalid number of values in summary file %s", outputFileName));
 						return null;
 					}
 					
@@ -362,14 +365,14 @@ public class WofostACMO implements AcmoTranslator {
 			int colNrExeName = getColumnNr(str_in, tagExpName);
 			if (colNrExeName < 0)
 			{
-				System.out.println(String.format("ACMO base file (%s) is missing required columm %s", acmoFileNameIn, tagExpName));
+				LOG.error(String.format("ACMO base file (%s) is missing required columm %s", acmoFileNameIn, tagExpName));
 				return null;
 			}
 			
 			// get required column names. Modelversion is first one.
 			if (getColumnNames(str_in) < 0) 
 			{
-				System.out.println(String.format("ACMO base file (%s) is missing required columm %s", acmoFileNameIn, tagModelVerName));
+				LOG.error(String.format("ACMO base file (%s) is missing required columm %s", acmoFileNameIn, tagModelVerName));
 				return null;
 			}
 						
@@ -385,7 +388,7 @@ public class WofostACMO implements AcmoTranslator {
 					String[] str_out = writeValues(summaryValues, str_in);
 					
 					cw.writeNext(str_out);
-					System.out.println(expOutputFileName);	
+					LOG.debug(expOutputFileName);	
 				}
 						
 				str_in = cr.readNext();
