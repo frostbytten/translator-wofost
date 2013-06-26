@@ -13,6 +13,8 @@ import org.apache.velocity.app.Velocity;
 
 import aquacrop_utils.ManagementEvent;
 import aquacrop_utils.PlantingEvent;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import org.agmip.common.Functions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,11 +79,13 @@ public class WofostOutputTimer extends WofostOutput {
 			context.put( "ISDAY", expDay);
 						
 			// Write template.        
-			Template template = Velocity.getTemplate(templatePath + "wofost_template.tim");        
+//			Template template = Velocity.getTemplate("wofost_template.tim");        
 			FileWriter F;        
 			try {            
 				F = new FileWriter(timerFilePath);            
-				template.merge( context, F );            
+//				template.merge( context, F );        
+                                Reader R = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("wofost_template.tim"));
+                                Velocity.evaluate(context, F, "wofost_template.tim", R);    
 				F.close();                    
 				} 
 			catch (IOException e) {

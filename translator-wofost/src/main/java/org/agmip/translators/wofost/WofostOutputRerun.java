@@ -2,6 +2,8 @@ package org.agmip.translators.wofost;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Date;
 import java.util.Map;
 
@@ -25,11 +27,13 @@ public class WofostOutputRerun extends WofostOutput {
 			context.put( "RUNNAM", quotedStr(expName));
 						
 			// Write template.        
-			Template template = Velocity.getTemplate(templatePath + "wofost_template.rer");        
+//			Template template = Velocity.getTemplate(templatePath + "wofost_template.rer");        
 			FileWriter F;        
 			try {            
 				F = new FileWriter(String.format("%s%s", filePath, rerunFileName));            
-				template.merge( context, F );            
+//				template.merge( context, F );            
+                                Reader R = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("wofost_template.rer"));
+                                Velocity.evaluate(context, F, "wofost_template.rer", R);
 				F.close();                    
 				} 
 			catch (IOException ex) 

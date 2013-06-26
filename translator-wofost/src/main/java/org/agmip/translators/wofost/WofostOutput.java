@@ -9,11 +9,20 @@ import java.util.Map;
 
 import org.agmip.core.types.TranslatorOutput;
 import aquacrop_utils.ManagementEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import org.agmip.common.Functions;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class WofostOutput implements TranslatorOutput {
 	
-	protected static String templatePath = "src\\main\\resources\\";
-	
+//	protected static String templatePath = "src\\main\\resources\\";
+
 	static String noValue = "<no value>";	
 	static public String expName = noValue;
 	static protected String Section = noValue;
@@ -152,4 +161,17 @@ public abstract class WofostOutput implements TranslatorOutput {
 		
 		return aVal;
 	}
+        
+    protected void writeTemplate(VelocityContext context, String outputPath, String templateName) {
+        Logger LOG = LoggerFactory.getLogger(getClass());
+        try {
+            FileWriter F = new FileWriter(outputPath);          
+            Reader R = new InputStreamReader(getClass().getClassLoader().getResourceAsStream(templateName));
+            Velocity.evaluate(context, F, templateName, R);
+            F.close();
+        } catch (IOException ex) {
+            LOG.error("IO error");
+            LOG.error(Functions.getStackTrace(ex));
+        }
+    }
 }

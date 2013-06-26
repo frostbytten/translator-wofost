@@ -2,6 +2,8 @@ package org.agmip.translators.wofost;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Map;
 import org.agmip.common.Functions;
@@ -46,11 +48,13 @@ public class WofostOutputSoil extends WofostOutput {
 			context.put( "SLSAT", MapUtil.getValueOr(soil.getValues(), "slsat", "-9.999"));        
 						
 			// Write template.        
-			Template template = Velocity.getTemplate(templatePath + "wofost_template.sol");        
+//			Template template = Velocity.getTemplate("wofost_template.sol");        
 			FileWriter F;        
 			try {              
 				F = new FileWriter(getSoilFilePath(soilName, filePath));            
-				template.merge( context, F );            
+//				template.merge( context, F );            
+                                Reader R = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("wofost_template.sol"));
+                                Velocity.evaluate(context, F, "wofost_template.sol", R);
 				F.close();                    
 				} 
 			catch (IOException ex) 

@@ -3,6 +3,8 @@ package org.agmip.translators.wofost;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Date;
 import java.util.Map;
 import org.agmip.common.Functions;
@@ -35,11 +37,13 @@ public class WofostOutputRunopt extends WofostOutput {
 			context.put( "FIXNAM", getOutputFileName(expName, false));
 			
 			// Write template.        
-			Template template = Velocity.getTemplate(templatePath + "wofost_template.wcc");        
+//			Template template = Velocity.getTemplate(templatePath + "wofost_template.wcc");        
 			FileWriter F;        
 			try {            
 				F = new FileWriter(fName);            
-				template.merge( context, F );            
+//				template.merge( context, F );         
+                                Reader R = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("wofost_template.wcc"));
+                                Velocity.evaluate(context, F, "wofost_template.wcc", R);   
 				F.close();                    
 			} catch (FileNotFoundException e) {
 				LOG.error("file not found");

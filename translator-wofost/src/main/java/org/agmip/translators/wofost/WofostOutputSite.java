@@ -2,6 +2,8 @@ package org.agmip.translators.wofost;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,11 +56,13 @@ public class WofostOutputSite extends WofostOutput {
 			getPutVariable(input, "wofost_rdmsol", "RDMSOL");
 
 			// Write template.        
-			Template template = Velocity.getTemplate(templatePath + "wofost_template.sit");        
+//			Template template = Velocity.getTemplate(templatePath + "wofost_template.sit");        
 			FileWriter F;        
 			try {            
 				F = new FileWriter(siteFilePath);            
-				template.merge( context, F );            
+//				template.merge( context, F );            
+                                Reader R = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("wofost_template.sit"));
+                                Velocity.evaluate(context, F, "wofost_template.sit", R);
 				F.close();                    
 				} 
 			catch (IOException ex) 
