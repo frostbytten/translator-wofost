@@ -24,14 +24,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.text.DateFormatter;
 import org.agmip.acmo.util.AcmoUtil;
+import org.agmip.common.Functions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -189,50 +192,71 @@ public class WofostACMO implements AcmoTranslator {
 		
 		NumberFormat format = NumberFormat.getInstance(Locale.US);
 		
-		String[] result;
-		result = new String[_str_in.length];
+//		String[] result;
+//		result = new String[_str_in.length];
+                ArrayList<String> result = new ArrayList();
+                for (int i = 0; i < _str_in.length; i++) {
+                    result.add(_str_in[i]);
+                }
+
+//		result[getColIndexOf(tagModelVerName)] = modelVersion; 
+                result.add(modelVersion);
 		
-		for (int i = 0; i < _str_in.length; i++)
-			result[i] = _str_in[i];
-		
-		result[getColIndexOf(tagModelVerName)] = modelVersion; 
-		
-		int index = getColIndexOf("HWAH_S");
+                // HWAH_S
+//		int index = getColIndexOf("HWAH_S");
 		String value = getValueOf("TWSO", summaryValues);
-		if (index >= 0)
-			result[index] = value;
+//		if (index >= 0) {
+//			result[index] = value;
+//                }
+                result.add(value);
 		
-		index = getColIndexOf("CWAH_S");
+                // CWAH_S
+//		index = getColIndexOf("CWAH_S");
 		value = getValueOf("TAGP", summaryValues);
-		if (index >= 0)
-			result[index] = value;
+//		if (index >= 0) {
+////			result[index] = value;
+//                }
+                result.add(value);
 		
+                // ADAT_S
 		String valueYR = getValueOf("YR", summaryValues);
-		index = getColIndexOf("ADAT_S");
+//		index = getColIndexOf("ADAT_S");
 		value = getValueOf("FLWR", summaryValues);
 		value = getDateFromDayNumber(value, valueYR);
-		result[index] = value;
+//		result[index] = value;
+                result.add(value);
 		
-		index = getColIndexOf("MDAT_S");
+                // MDAT_S
+//		index = getColIndexOf("MDAT_S");
 		value = getValueOf("HALT", summaryValues);
 		value = getDateFromDayNumber(value, valueYR);
-		result[index] = value;
+//		result[index] = value;
+                result.add(value);
+                
+                // HADAT_S
+                result.add("");
+                // LAIX_S
+                result.add("");
 
-		index = getColIndexOf("PRCP_S");
+                // PRCP_S
+//		index = getColIndexOf("PRCP_S");
 		value = getValueOf("RAINT", summaryValues);
 		if (value != null)
 		{
 			try {
 				Number number = format.parse(value);
 				value = format.format(number.floatValue() * 10);
-				result[index] = value;
+//				result[index] = value;
+                                result.add(value);
 			}
 			catch (Exception e) {
-				e.printStackTrace();
+                                LOG.warn(Functions.getStackTrace(e));
+                                result.add("");
 			}			
 		}
 		
-		index = getColIndexOf("ETCP_S");
+                // ETCP_S
+//		index = getColIndexOf("ETCP_S");
 		String value1 = getValueOf("TRANSP", summaryValues);
 		String value2 = getValueOf("EVSOL", summaryValues);
 		try {
@@ -240,13 +264,20 @@ public class WofostACMO implements AcmoTranslator {
 			Number number1 = format.parse(value1);
 			Number number2 = format.parse(value2);
 			value = format.format((number1.floatValue() + number2.floatValue()) * 10.0);
-			result[index] = value;
+//			result[index] = value;
+                        result.add(value);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+                        LOG.warn(Functions.getStackTrace(e));
+                        result.add("");
 		}
+                
+                // NUCM_S
+                result.add("");
+                // NLCM_S
+                result.add("");
 			
-		return result;
+		return result.toArray(new String[0]);
 		
 	}
 	
