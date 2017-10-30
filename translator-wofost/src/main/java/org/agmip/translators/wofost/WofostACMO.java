@@ -374,7 +374,7 @@ public class WofostACMO implements AcmoTranslator {
 		char quotechar = '"';
 		
 		// try to find input file
-		String acmoFileNameIn = sourceFolder + "\\ACMO_meta.dat";
+		String acmoFileNameIn = sourceFolder + File.separator + "ACMO_meta.dat";
 		BufferedReader br = getBufferedReader(acmoFileNameIn);
 		CSVReader cr = new CSVReader(br, seperator, quotechar);
 		
